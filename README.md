@@ -4,7 +4,7 @@
 
 Clone *QBO_config* repository into **/home/pi/Documents/** directory.
 
-Update **QBOtalk.py** and **PiFaceFast.py** from PiFace repository.
+Update **QBOtalk.py** and **PiFaceFast.py** from QBO_PiFace repository.
 
 ## System deamon
 Edit QBOautoStart.service:
