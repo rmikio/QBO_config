@@ -2,6 +2,13 @@
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkAdjustment" id="adjustment_volume">
+    <property name="upper">100</property>
+    <property name="value">50</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
+    <signal name="value-changed" handler="on_adjustment_volume_value_changed" swapped="no"/>
+  </object>
   <object class="GtkListStore" id="liststore1">
     <columns>
       <!-- column-name gchararray1 -->
@@ -76,7 +83,7 @@
             <property name="margin_bottom">5</property>
             <property name="model">liststore2</property>
             <property name="active">0</property>
-            <signal name="changed" handler="on_combo_startWith_changed" swapped="no"/>
+            <signal name="changed" handler="on_combo_startWith_changed" object="check_enableQuestions" swapped="no"/>
             <child>
               <object class="GtkCellRendererText" id="cellRendered_lang1"/>
               <attributes>
@@ -119,7 +126,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">4</property>
+            <property name="top_attach">6</property>
           </packing>
         </child>
         <child>
@@ -130,7 +137,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">5</property>
+            <property name="top_attach">7</property>
           </packing>
         </child>
         <child>
@@ -141,7 +148,7 @@
           </object>
           <packing>
             <property name="left_attach">0</property>
-            <property name="top_attach">6</property>
+            <property name="top_attach">8</property>
           </packing>
         </child>
         <child>
@@ -152,7 +159,7 @@
           </object>
           <packing>
             <property name="left_attach">1</property>
-            <property name="top_attach">4</property>
+            <property name="top_attach">6</property>
           </packing>
         </child>
         <child>
@@ -163,7 +170,7 @@
           </object>
           <packing>
             <property name="left_attach">1</property>
-            <property name="top_attach">5</property>
+            <property name="top_attach">7</property>
           </packing>
         </child>
         <child>
@@ -174,7 +181,7 @@
           </object>
           <packing>
             <property name="left_attach">1</property>
-            <property name="top_attach">6</property>
+            <property name="top_attach">8</property>
           </packing>
         </child>
         <child>
@@ -182,6 +189,7 @@
             <property name="height_request">2</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_bottom">13</property>
           </object>
           <packing>
             <property name="left_attach">0</property>
@@ -223,7 +231,7 @@
           </object>
           <packing>
             <property name="left_attach">4</property>
-            <property name="top_attach">8</property>
+            <property name="top_attach">9</property>
           </packing>
         </child>
         <child>
@@ -241,10 +249,67 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkCheckButton" id="check_enableQuestions">
+            <property name="label" translatable="yes">enable questions</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="draw_indicator">True</property>
+            <signal name="toggled" handler="on_check_enableQuestions_toggled" swapped="no"/>
+          </object>
+          <packing>
+            <property name="left_attach">4</property>
+            <property name="top_attach">4</property>
+          </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkSeparator">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">5</property>
+            <property name="width">5</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVolumeButton" id="butt_volume">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="focus_on_click">False</property>
+            <property name="receives_default">True</property>
+            <property name="relief">none</property>
+            <property name="value">50</property>
+            <property name="size">button</property>
+            <property name="adjustment">adjustment_volume</property>
+            <property name="icons">audio-volume-muted-symbolic
+audio-volume-high-symbolic
+audio-volume-low-symbolic
+audio-volume-medium-symbolic</property>
+            <child internal-child="plus_button">
+              <object class="GtkButton">
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="relief">none</property>
+              </object>
+            </child>
+            <child internal-child="minus_button">
+              <object class="GtkButton">
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="relief">none</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left_attach">2</property>
+            <property name="top_attach">0</property>
+          </packing>
         </child>
         <child>
           <placeholder/>

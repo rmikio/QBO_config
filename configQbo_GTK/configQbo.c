@@ -20,6 +20,12 @@ typedef struct ips {
 
 YAMLconfig conf;
 
+void printf_conf(void)
+{
+  printf("READ: age: %d, lang:%s, startWith: %s, token: %s, op_question: %s, volume: %d\n", conf.age, conf.language, conf.startWith, conf.tokenAPIai, conf.op_question, conf.volume);
+  
+}
+
 
 int getIps(ips Ips[10])
 {
@@ -85,7 +91,8 @@ void on_butt_exit_clicked (GtkButton *button, gpointer   user_data)
   }
   else if (dlgresponse == 0) {
     printf("Save changes dialog.\n");
-    printf("CONF: age: %d, lang:%s, start: %s, token: %s.\n", conf.age, conf.language, conf.startWith, conf.tokenAPIai);
+    printf_conf();
+    //    printf("CONF: age: %d, lang:%s, start: %s, token: %s.\n", conf.age, conf.language, conf.startWith, conf.tokenAPIai);
     writeConfig(&conf);
     gtk_main_quit();
   }
@@ -93,6 +100,17 @@ void on_butt_exit_clicked (GtkButton *button, gpointer   user_data)
 
   }
   gtk_widget_hide(GTK_WIDGET(user_data));
+}
+
+
+void on_check_enableQuestions_toggled (GtkToggleButton *togglebutton, gpointer user_data)
+{
+  if ( gtk_toggle_button_get_active(togglebutton) ) {
+    sprintf(conf.op_question, "yes"); 
+  }
+  else {
+    sprintf(conf.op_question, "no"); 
+  }
 }
 
 
@@ -110,17 +128,17 @@ void on_combo_lang_changed(GtkComboBox *widget, gpointer user_data)
   printf("comboLan idx: %d\n", idx);
   switch (idx) {
   case 0:
-    sprintf(conf.language, "English"); 
+    sprintf(conf.language, "english"); 
     break;
   case 1:
-    sprintf(conf.language, "Spanish"); 
+    sprintf(conf.language, "spanish"); 
     break;
   default:
     break;
   }
 }
 
-void on_combo_startWith_changed(GtkComboBox *widget, gpointer user_data)
+void on_combo_startWith_changed(GtkComboBox *widget, gpointer toggleOpQuestion)
 {
   gint idx;
 
@@ -128,10 +146,12 @@ void on_combo_startWith_changed(GtkComboBox *widget, gpointer user_data)
   //printf("comboLan idx: %d\n", idx);
   switch (idx) {
   case 0:
-    sprintf(conf.startWith, "Scratch"); 
+    sprintf(conf.startWith, "scratch"); 
+    gtk_widget_hide( GTK_WIDGET(toggleOpQuestion));
     break;
   case 1:
-    sprintf(conf.startWith, "Interactive"); 
+    sprintf(conf.startWith, "interactive"); 
+    gtk_widget_show( GTK_WIDGET(toggleOpQuestion));
     break;
   default:
     break;
@@ -144,6 +164,13 @@ void on_entry_Token_changed(GtkEntry *entry, gpointer   user_data)
   sprintf(conf.tokenAPIai, "%s", gtk_entry_get_text (entry));
 }
 
+
+void on_adjustment_volume_value_changed (GtkAdjustment *adjustment, gpointer       user_data)
+{
+  conf.volume = (int)gtk_adjustment_get_value(adjustment);
+}
+
+
 int main(int argc, char *argv[])
 {
   GtkBuilder *builder; 
@@ -154,40 +181,57 @@ int main(int argc, char *argv[])
   GtkComboBox *comboStartWith;
   GtkComboBox *comboLanguage;
   GtkEntry *entryToken;
+  GtkToggleButton *toggleOpQuestion;
+  GtkAdjustment *adjVolume;
   ips Ips[10];
   int nIps, i;
 
   
   readConfig(&conf);
-  printf("READ: age: %d, lang:%s, start: %s, token: %s.\n", conf.age, conf.language, conf.startWith, conf.tokenAPIai);
-    
+  printf_conf();
+  
   gtk_init(&argc, &argv);
  
   builder = gtk_builder_new();
+  //gtk_builder_add_from_file (builder, "configQbo.glade", NULL);
   gtk_builder_add_from_file (builder, "/home/pi/Documents/configQbo_GTK/configQbo.glade", NULL);
-  //  gtk_builder_add_from_file (builder, "/home/pi/Documents/configQbo_GTK/configQbo.glade", NULL);
  
   window = GTK_WIDGET(gtk_builder_get_object(builder, "window_main"));
   gtk_builder_connect_signals(builder, NULL);
 
+  // update toggle op_question content
+  toggleOpQuestion = GTK_TOGGLE_BUTTON(gtk_builder_get_object(builder, "check_enableQuestions"));
+  if (strcmp(conf.op_question, "yes") == 0) {
+    gtk_toggle_button_set_active  (GTK_TOGGLE_BUTTON(toggleOpQuestion), TRUE);
+  }
+  else {
+    gtk_toggle_button_set_active  (GTK_TOGGLE_BUTTON(toggleOpQuestion), FALSE);
+  }
+  
   // update combo startWith content
   comboStartWith = GTK_COMBO_BOX(gtk_builder_get_object(builder, "combo_startWith"));
-  if (strcmp(conf.startWith, "Scratch") == 0) {
+  if (strcmp(conf.startWith, "scratch") == 0) {
     gtk_combo_box_set_active (GTK_COMBO_BOX(comboStartWith), 0);
+    gtk_widget_hide( GTK_WIDGET(toggleOpQuestion));
   }
   else {
     gtk_combo_box_set_active (GTK_COMBO_BOX(comboStartWith), 1);
+    gtk_widget_show( GTK_WIDGET(toggleOpQuestion));
   }
 
   // update combo language content
   comboLanguage = GTK_COMBO_BOX(gtk_builder_get_object(builder, "combo_lang"));
-  if (strcmp(conf.language, "English") == 0) {
+  if (strcmp(conf.language, "english") == 0) {
     gtk_combo_box_set_active (GTK_COMBO_BOX(comboLanguage), 0);
   }
-  else if (strcmp(conf.language, "Spanish") == 0) {
+  else if (strcmp(conf.language, "spanish") == 0) {
     gtk_combo_box_set_active (GTK_COMBO_BOX(comboLanguage), 1);
   }
 
+  // Update volume adjustment
+  adjVolume = GTK_ADJUSTMENT(gtk_builder_get_object(builder, "adjustment_volume"));
+  gtk_adjustment_set_value (adjVolume, (gdouble)conf.volume);
+  
   // update TokenAPIai entry
   entryToken = GTK_ENTRY(gtk_builder_get_object(builder, "entry_Token"));
   gtk_entry_set_text (entryToken, conf.tokenAPIai);

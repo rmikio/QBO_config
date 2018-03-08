@@ -6,6 +6,8 @@ typedef struct YAMLconfig {
   char language[80];
   char startWith[80];
   char tokenAPIai[256];
+  char op_question[80];
+  int volume;
 }YAMLconfig;
 
 int readConfig(YAMLconfig* conf);

@@ -43,6 +43,8 @@ int readConfig(YAMLconfig* conf)
 	else if (strcmp(key,"startWith") == 0) sprintf(conf->startWith, "%s", value);
 	else if (strcmp(key,"age") == 0) conf->age = atoi(value);
 	else if (strcmp(key,"tokenAPIai") == 0) sprintf(conf->tokenAPIai, "%s", value);
+	else if (strcmp(key,"op_question") == 0) sprintf(conf->op_question, "%s", value);
+	else if (strcmp(key,"volume") == 0) conf->volume = atoi(value);
 
 	break;
 	/*
@@ -78,7 +80,7 @@ int writeConfig(YAMLconfig* conf)
 {
   FILE *fh = fopen("/home/pi/Documents/config.yml", "w");
  
-  fprintf(fh, "{age: %d, language: %s, startWith: %s, tokenAPIai: %s}\n", conf->age, conf->language, conf->startWith, conf->tokenAPIai);
+  fprintf(fh, "{age: %d, language: %s, startWith: %s, tokenAPIai: %s, op_question: %s, volume: %d}\n", conf->age, conf->language, conf->startWith, conf->tokenAPIai, conf->op_question, conf->volume);
   fclose(fh);
 
   return 0;
