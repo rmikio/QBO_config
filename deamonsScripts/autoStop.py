@@ -15,10 +15,10 @@ print "CONFIG " + str(config)
 
 if (config["language"] == "spanish"):
 	text = "Adíos"
-        speak = "pico2wave -l \"es-ES\" -w /home/pi/Documents/pico2wave.wav \"" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
+        speak = "pico2wave -l \"es-ES\" -w /home/pi/Documents/pico2wave.wav \"<volume level='" + str(config["volume"]) + "'>" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
 else:
 	text = "Good bye"
-        speak = "pico2wave -l \"en-US\" -w /home/pi/Documents/pico2wave.wav \"" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
+        speak = "pico2wave -l \"en-US\" -w /home/pi/Documents/pico2wave.wav \"<volume level='" + str(config["volume"]) + "'>" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
 result = subprocess.call(speak, shell = True)
 time.sleep(0.5)
 

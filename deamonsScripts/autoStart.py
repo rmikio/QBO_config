@@ -14,19 +14,19 @@ print "CONFIG " + str(config)
 
 
 if (config["language"] == "spanish"):
-	speak = "pico2wave -l \"es-ES\" -w /home/pi/Documents/pico2wave.wav Hola && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
+	speak = "pico2wave -l \"es-ES\" -w /home/pi/Documents/pico2wave.wav <volume level='" + str(config["volume"]) + "'>" + "Hola && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
 else:
-        speak = "pico2wave -l \"en-US\" -w /home/pi/Documents/pico2wave.wav Hello && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
+        speak = "pico2wave -l \"en-US\" -w /home/pi/Documents/pico2wave.wav <volume level='" + str(config["volume"]) + "'>" + "Hello && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
 result = subprocess.call(speak, shell = True)
 time.sleep(0.5)
 
 if config["startWith"] == "scratch":
 	if (config["language"] == "spanish"):
 		text = "estoy en modo scratch."
-        	speak = "pico2wave -l \"es-ES\" -w /home/pi/Documents/pico2wave.wav \"" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
+        	speak = "pico2wave -l \"es-ES\" -w /home/pi/Documents/pico2wave.wav \"<volume level='" + str(config["volume"]) + "'>" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
         else:
         	text = "I'm in scratch mode."
-		speak = "pico2wave -l \"en-US\" -w /home/pi/Documents/pico2wave.wav \"" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
+		speak = "pico2wave -l \"en-US\" -w /home/pi/Documents/pico2wave.wav \"<volume level='" + str(config["volume"]) + "'>" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
 
         result = subprocess.call(speak, shell = True)
 
@@ -35,10 +35,10 @@ if config["startWith"] == "scratch":
 elif config["startWith"] == "interactive":
         if (config["language"] == "spanish"):
                 text = "estoy en modo interactivo. Un momento, por favor."
-                speak = "pico2wave -l \"es-ES\" -w /home/pi/Documents/pico2wave.wav \"" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
+                speak = "pico2wave -l \"es-ES\" -w /home/pi/Documents/pico2wave.wav \"<volume level='" + str(config["volume"]) + "'>" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
         else:
                 text = "I'm in interactive mode. Please wait."
-                speak = "pico2wave -l \"en-US\" -w /home/pi/Documents/pico2wave.wav \"" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
+                speak = "pico2wave -l \"en-US\" -w /home/pi/Documents/pico2wave.wav \"<volume level='" + str(config["volume"]) + "'>" + text + "\" && aplay -D convertQBO /home/pi/Documents/pico2wave.wav"
 
         result = subprocess.call(speak, shell = True)
 
