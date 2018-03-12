@@ -151,7 +151,8 @@ void on_combo_startWith_changed(GtkComboBox *widget, gpointer toggleOpQuestion)
     break;
   case 1:
     sprintf(conf.startWith, "interactive"); 
-    gtk_widget_show( GTK_WIDGET(toggleOpQuestion));
+    //gtk_widget_show( GTK_WIDGET(toggleOpQuestion));
+    gtk_widget_hide( GTK_WIDGET(toggleOpQuestion));
     break;
   default:
     break;
@@ -216,7 +217,8 @@ int main(int argc, char *argv[])
   }
   else {
     gtk_combo_box_set_active (GTK_COMBO_BOX(comboStartWith), 1);
-    gtk_widget_show( GTK_WIDGET(toggleOpQuestion));
+    //gtk_widget_show( GTK_WIDGET(toggleOpQuestion));
+    gtk_widget_hide( GTK_WIDGET(toggleOpQuestion));
   }
 
   // update combo language content
